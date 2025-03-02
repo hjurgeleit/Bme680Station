@@ -13,7 +13,7 @@
  *              pressure, humidity, and gas resistance data periodically.
  *
  * @hardware    ESP32 Dev Board, BME680 Sensor, I2C connections (configurable pins/freq).
- * @config      Requires I2C_MASTER_SCL, I2C_MASTER_SDA, I2C_MASTER_FREQUENCY in sdkconfig.
+ * @config      Requires I2C_MASTER_SCL, I2C_MASTER_SDA in sdkconfig.
  *
  * @see         BME680 Docs: https://www.bosch-sensortec.com/products/environmental-sensors/gas-sensors/bme680/
  *              Bosch BME68x SensorAPI: https://github.com/boschsensortec/BME68x_SensorAPI
@@ -31,8 +31,9 @@
 
 #define SCL_IO_NUM       CONFIG_I2C_MASTER_SCL
 #define SDA_IO_NUM       CONFIG_I2C_MASTER_SDA
-#define MASTER_FREQUENCY CONFIG_I2C_MASTER_FREQUENCY
 #define PORT_NUMBER      -1
+#define SCL_SPEED_HZ     100000
+#define SCL_WAIT_US      1000
 
 static const char *TAG = "MAIN";
 
@@ -117,8 +118,8 @@ void app_main(void)
     i2c_device_config_t dev_cfg = {
         .dev_addr_length = I2C_ADDR_BIT_LEN_7,
         .device_address = BME68X_I2C_ADDR_HIGH,
-        .scl_speed_hz = 100000,
-        .scl_wait_us = 1000,
+        .scl_speed_hz = SCL_SPEED_HZ,
+        .scl_wait_us = SCL_WAIT_US,
         .flags = {
             .disable_ack_check = 0
         }
